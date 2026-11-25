@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoundWaves | Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#"><i class="fa-solid fa-compact-disc"></i><span>SoundWaves</span><small>ADMIN</small></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-link active" data-view="overview"><i class="fa-solid fa-chart-pie"></i> Overview</button>
+      <button class="nav-link" data-view="songs"><i class="fa-solid fa-music"></i> Manage Songs</button>
+      <button class="nav-link" data-view="reviews"><i class="fa-solid fa-star"></i> Reviews</button>
+      <div class="sidebar-bottom">
+        <div class="admin-mini"><div class="avatar">A</div><div><b>Administrator</b><span>System Manager</span></div></div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to website</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+        <div><span class="eyebrow">SOUNDWAVES CONTROL CENTER</span><h1 id="pageTitle">Overview</h1></div>
+        <div class="top-actions"><span class="status"><i></i> Admin mode</span><div class="top-avatar">A</div></div>
+      </header>
+
+      <section class="view active" id="overviewView">
+        <div class="welcome">
+          <div><span class="eyebrow">YOUR MUSIC, YOUR CONTROL</span><h2>Welcome back, Admin</h2><p>Here's what's happening in your SoundWaves library.</p></div>
+          <div class="welcome-icon"><i class="fa-solid fa-wave-square"></i></div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon cyan"><i class="fa-solid fa-music"></i></div><span>Total songs</span><strong id="songCount">0</strong><small>In your music library</small></article>
+          <article class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-layer-group"></i></div><span>Genres</span><strong id="genreCount">0</strong><small>Music categories</small></article>
+          <article class="stat-card"><div class="stat-icon yellow"><i class="fa-solid fa-star"></i></div><span>Reviews</span><strong id="reviewCount">0</strong><small>Listener feedback entries</small></article>
+          <article class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-chart-line"></i></div><span>Average rating</span><strong id="averageRating">0.0</strong><small>Across listed tracks</small></article>
+        </div>
+        <div class="panel">
+          <div class="panel-heading"><div><h3>Recently added tracks</h3><p>Your current music library</p></div><button class="outline-btn" data-go="songs">View all <i class="fa-solid fa-arrow-right"></i></button></div>
+          <div class="table-wrap"><table><thead><tr><th>TRACK</th><th>ARTIST</th><th>GENRE</th><th>RATING</th><th>DURATION</th></tr></thead><tbody id="recentSongs"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="view" id="songsView">
+        <div class="section-intro"><div><h2>Manage songs</h2><p>Add new tracks, update details, or remove tracks from this admin library.</p></div><button class="primary-btn" id="addSongBtn"><i class="fa-solid fa-plus"></i> Add song</button></div>
+        <div class="toolbar"><div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="songSearch" type="search" placeholder="Search title, artist or album..."></div><select id="genreFilter"><option value="">All genres</option></select></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>TRACK</th><th>ARTIST</th><th>ALBUM</th><th>GENRE</th><th>RATING</th><th>ACTIONS</th></tr></thead><tbody id="songsTable"></tbody></table></div><div class="empty hidden" id="emptySongs">No songs found. Try another search or add a track.</div></div>
+      </section>
+
+      <section class="view" id="reviewsView">
+        <div class="section-intro"><div><h2>Listener reviews</h2><p>Feedback currently available in the admin sample data.</p></div></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>LISTENER</th><th>TRACK</th><th>RATING</th><th>COMMENT</th></tr></thead><tbody id="reviewsTable"></tbody></table></div><div class="empty hidden" id="emptyReviews">No reviews are available yet.</div></div>
+        <p class="notice"><i class="fa-solid fa-circle-info"></i> Reviews submitted on the main website are stored in its JavaScript memory. This separate page cannot read them unless both pages are connected to a shared backend.</p>
+      </section>
+      <footer>© 2026 SoundWaves · Leno Edition <span>Admin dashboard</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="songModal">
+    <form class="modal" id="songForm">
+      <div class="modal-head"><div><span class="eyebrow">LIBRARY MANAGEMENT</span><h2 id="modalTitle">Add a song</h2></div><button type="button" class="close-btn" id="closeModal" aria-label="Close">&times;</button></div>
+      <input type="hidden" id="songId">
+      <label>Song title<input id="title" required maxlength="80" placeholder="Enter song title"></label>
+      <label>Artist<input id="artist" required maxlength="80" placeholder="Enter artist name"></label>
+      <label>Album<input id="album" required maxlength="80" placeholder="Enter album name"></label>
+      <div class="form-row"><label>Genre<input id="genre" required maxlength="40" placeholder="e.g. Lo-Fi"></label><label>Duration (seconds)<input id="duration" type="number" min="1" required placeholder="180"></label></div>
+      <label>Audio URL<input id="url" type="url" required placeholder="https://example.com/song.mp3"></label>
+      <label>Cover image URL<input id="cover" type="url" required placeholder="https://example.com/cover.jpg"></label>
+      <label>Rating (0–5)<input id="rating" type="number" min="0" max="5" step="0.1" value="4.5" required></label>
+      <div class="modal-actions"><button type="button" class="outline-btn" id="cancelModal">Cancel</button><button type="submit" class="primary-btn">Save song</button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="admin.js"></script>
+</body>
+</html>
